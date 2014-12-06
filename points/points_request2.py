@@ -52,5 +52,3 @@ def get_html(username,password):
             dict[cols[0].text]=cols[1].text
 
     return [points_data,meal_data]
-
-print get_html(secrets.brandeis_user,secrets.brandeis_pass)
