@@ -2,6 +2,10 @@ __author__ = 'arya'
 import cookielib
 import urllib, urllib2
 import secrets
+
+import requests
+
+
 cj = cookielib.CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 opener.addheaders = [('User-agent', 'BrandeisPoints')]
@@ -20,4 +24,11 @@ data = urllib.urlencode(payload)
 req = urllib2.Request(authentication_url, data)
 resp = urllib2.urlopen(req)
 contents = resp.read()
-print contents
+#print contents
+
+s = requests.session()
+login_data = payload
+s.post('https://login.brandeis.edu/cgi-bin/cosign.cgi', data=login_data)
+r = s.get('https://brandeis.netcardmanager.com/student/welcome.php')
+
+print r.content
