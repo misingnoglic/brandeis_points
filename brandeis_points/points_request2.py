@@ -5,6 +5,8 @@ import secrets
 
 import requests
 from random import randrange
+from BeautifulSoup import BeautifulSoup
+
 def get_html(username,password):
     cj = cookielib.CookieJar()
     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
@@ -24,6 +26,31 @@ def get_html(username,password):
     login_data = payload
     s.get('https://login.brandeis.edu/cgi-bin/cosign.cgi')
     s.post('https://login.brandeis.edu/cgi-bin/cosign.cgi', data=login_data)
-    r = s.get('https://brandeis.netcardmanager.com/student/welcome.php', verify=False)
+    r = s.get('https://brandeis.netcardmanager.com/student/welcome.php')
+    html_file = r.content
+    beginning = '<table class="Data" cellpadding=0 cellspacing=2>'
 
-    return r.content
+
+    table1_start = html_file.find(beginning)
+    table1_end = html_file.find('</table>',table1_start)+len("</table>")
+    points = r.content[table1_start:table1_end]
+    table2_start = html_file.find(beginning,table1_end)
+    table2_end = html_file.find('</table>',table2_start)+len("</table>")
+    meals = r.content[table2_start:table2_end]
+
+    points_data = {}
+    meal_data = {}
+    match = [(points,points_data),(meals,meal_data)]
+
+    for html,dict in match:
+        soup = BeautifulSoup(html)
+        rows = soup.findAll('tr')
+        for row in rows:
+            cols = row.findAll('td')
+
+
+            dict[cols[0].text]=cols[1].text
+
+    return [points_data,meal_data]
+
+print get_html(secrets.brandeis_user,secrets.brandeis_pass)
