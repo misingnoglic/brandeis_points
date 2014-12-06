@@ -38,8 +38,8 @@ def get_html(username,password):
     table2_end = html_file.find('</table>',table2_start)+len("</table>")
     meals = r.content[table2_start:table2_end]
 
-    points_data = {}
-    meal_data = {}
+    points_data = []
+    meal_data = []
     match = [(points,points_data),(meals,meal_data)]
 
     for html,dict in match:
@@ -47,8 +47,10 @@ def get_html(username,password):
         rows = soup.findAll('tr')
         for row in rows:
             cols = row.findAll('td')
+            values = {}
+            values['name']=cols[0].text
+            values['value']=cols[1].text
 
-
-            dict[cols[0].text]=cols[1].text
+            dict.append(values)
 
     return [points_data,meal_data]
