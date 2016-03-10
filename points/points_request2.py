@@ -41,7 +41,7 @@ def get_html(username,password):
     meal_data = []
     match = [(points,points_data),(meals,meal_data)]
 
-    for html,dict in match:
+    for html,d in match:
         soup = BeautifulSoup(html)
         rows = soup.findAll('tr')
         for row in rows:
@@ -50,6 +50,6 @@ def get_html(username,password):
             values['name']=cols[0].text
             values['value']=cols[1].text
 
-            dict.append(values)
+            d.append(values)
 
     return [points_data,meal_data]
