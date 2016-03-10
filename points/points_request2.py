@@ -1,11 +1,10 @@
 __author__ = 'arya'
 import cookielib
 import urllib, urllib2
-import secrets
 
 import requests
 from random import randrange
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 
 def get_html(username,password):
     cj = cookielib.CookieJar()
@@ -17,8 +16,8 @@ def get_html(username,password):
     payload['required']="BRANDEIS.EDU,ldapauth"
     payload['ref']="https://apps.brandeis.edu//offsitesso/cbord"
     payload['service']="cosign-OffsiteSSO-apps-prod"
-    payload["login"]=secrets.brandeis_user
-    payload["password"]=secrets.brandeis_pass
+    payload["login"]=username
+    payload["password"]=password
     payload["doLogin.x"]=randrange(1,99)
     payload["doLogin.y"]=randrange(1,99)
 
