@@ -7,9 +7,11 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def get_meals(request):
     if request.method == 'POST':
-        
-        brandeis_user = request.POST["username"].lower()
-        brandeis_pass = request.POST["password"]
+        try:
+            brandeis_user = request.POST["username"].lower()
+            brandeis_pass = request.POST["password"]
+        except KeyError:
+            d = {"success":False, "error":"POST Request data not complete"}
         try:
             data = get_html(brandeis_user,brandeis_pass)
             d = {"success":True,"points":data[0], "meals":data[1]}
