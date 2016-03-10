@@ -47,8 +47,8 @@ def get_html(username,password):
         for row in rows:
             cols = row.findAll('td')
             values = {}
-            values['name']=cols[0].text
-            values['value']=cols[1].text
+            values['name']=cols[0].text.strip()
+            values['value']=cols[1].text.strip()
 
             d.append(values)
 

@@ -11,5 +11,5 @@ def get_meals(request):
             brandeis_pass = request.POST["password"]
     
             data = get_html(brandeis_user,brandeis_pass)
-    d = {"points":data[0], "meals":data[1]}
-    return HttpResponse(json.dumps(d), content_type="application/json")
+            d = {"points":data[0], "meals":data[1]}
+            return HttpResponse(json.dumps(d), content_type="application/json")
